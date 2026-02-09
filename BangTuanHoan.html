@@ -1,0 +1,1206 @@
+<!doctype html>
+<html lang="vi" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng Tuần Hoàn Các Nguyên Tố Hóa Học</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;family=Roboto+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    
+    .element-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      min-height: 70px;
+      font-size: 10px;
+    }
+    
+    .element-card:hover {
+      transform: scale(1.15);
+      z-index: 100;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    
+    .element-card.dimmed {
+      opacity: 0.15;
+      transform: scale(0.95);
+    }
+    
+    .element-card.highlighted {
+      animation: pulse 1s ease-in-out infinite;
+      box-shadow: 0 0 15px currentColor;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .alkali-metal { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%); color: #fff; }
+    .alkaline-earth { background: linear-gradient(135deg, #ffa502 0%, #ff8c00 100%); color: #fff; }
+    .transition-metal { background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: #fff; }
+    .post-transition { background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); color: #fff; }
+    .metalloid { background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); color: #fff; }
+    .nonmetal { background: linear-gradient(135deg, #27ae60 0%, #229954 100%); color: #fff; }
+    .halogen { background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%); color: #fff; }
+    .noble-gas { background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%); color: #fff; }
+    .lanthanide { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: #fff; }
+    .actinide { background: linear-gradient(135deg, #795548 0%, #5d4037 100%); color: #fff; }
+    .unknown { background: linear-gradient(135deg, #607d8b 0%, #455a64 100%); color: #fff; }
+    
+    .block-s { box-shadow: inset 0 0 0 3px #e74c3c; }
+    .block-p { box-shadow: inset 0 0 0 3px #3498db; }
+    .block-d { box-shadow: inset 0 0 0 3px #f39c12; }
+    .block-f { box-shadow: inset 0 0 0 3px #9b59b6; }
+    
+    .tab-btn {
+      transition: all 0.3s ease;
+    }
+    
+    .tab-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .control-btn {
+      transition: all 0.2s ease;
+    }
+    
+    .control-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .control-btn.active {
+      background: #667eea;
+      color: white;
+    }
+    
+    .modal-overlay {
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .modal-content {
+      animation: slideUp 0.3s ease;
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .sphere-3d {
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #6dd5fa, #2980b9, #1a5276);
+      box-shadow: 
+        inset -5px -5px 15px rgba(0,0,0,0.3),
+        inset 5px 5px 15px rgba(255,255,255,0.3),
+        3px 3px 10px rgba(0,0,0,0.3);
+    }
+    
+    .periodic-grid {
+      display: grid;
+      grid-template-columns: repeat(18, minmax(40px, 1fr));
+      gap: 2px;
+      max-width: 100%;
+    }
+    
+    .group-a-grid {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(60px, 1fr));
+      gap: 4px;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 4px;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-50 to-blue-50 overflow-auto">
+  <div id="app" class="w-full min-h-full p-4"><!-- Header -->
+   <header class="text-center mb-4">
+    <h1 id="main-title" class="text-2xl md:text-3xl font-bold text-blue-600 mb-2">BẢNG TUẦN HOÀN CÁC NGUYÊN TỐ HÓA HỌC</h1>
+    <p class="text-gray-600 text-sm">Giáo vên Nguyễn Manh Hưng, THPT Trại Cau thiết kế teo chương trình GDPT 2018</p>
+   </header><!-- Teacher Mode Toggle -->
+   <div class="flex justify-center mb-4"><label class="flex items-center gap-2 cursor-pointer bg-white px-4 py-2 rounded-full shadow-md"> <span class="text-2xl">🎓</span> <span class="font-medium text-gray-700">Chế độ có cấu hình electron</span> <input type="checkbox" id="teacher-mode" class="w-5 h-5 accent-purple-600"> </label>
+   </div><!-- Tabs -->
+   <div class="flex flex-wrap justify-center gap-2 mb-4"><button class="tab-btn active px-4 py-2 rounded-lg font-medium text-sm bg-gray-200" data-tab="periodic"> 📊 Bảng tuần hoàn các nguyên tố hóa học </button> <button class="tab-btn px-4 py-2 rounded-lg font-medium text-sm bg-gray-200" data-tab="electron"> ⚛️ Cấu hình electron </button> <button class="tab-btn px-4 py-2 rounded-lg font-medium text-sm bg-gray-200" data-tab="radius"> 🔵 Bán kính nguyên tử </button> <button class="tab-btn px-4 py-2 rounded-lg font-medium text-sm bg-gray-200" data-tab="electronegativity"> ⚡ Độ âm điện </button>
+   </div><!-- Tab Content -->
+   <div id="tab-content"><!-- Tab 1: Periodic Table -->
+    <div id="periodic-tab" class="tab-panel"><!-- Controls -->
+     <div class="bg-white rounded-xl shadow-lg p-4 mb-4">
+      <div class="flex flex-wrap gap-4 justify-center items-center"><!-- Search -->
+       <div class="flex items-center gap-2"><span class="text-xl">🔍</span> <input type="text" id="search-input" placeholder="Tìm kiếm..." class="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 w-40">
+       </div><!-- Block buttons -->
+       <div class="flex gap-1"><button class="control-btn px-3 py-1 rounded text-xs font-medium bg-red-100 text-red-700" data-block="s">Khối s</button> <button class="control-btn px-3 py-1 rounded text-xs font-medium bg-blue-100 text-blue-700" data-block="p">Khối p</button> <button class="control-btn px-3 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-700" data-block="d">Khối d</button> <button class="control-btn px-3 py-1 rounded text-xs font-medium bg-purple-100 text-purple-700" data-block="f">Khối f</button>
+       </div><!-- Reset --> <button id="reset-btn" class="control-btn px-4 py-2 rounded-lg bg-gray-600 text-white font-medium text-sm"> 🔄 Reset </button>
+      </div><!-- Period buttons -->
+      <div class="mt-3 flex flex-wrap justify-center gap-1"><span class="text-sm font-medium text-gray-600 mr-2">Chu kỳ:</span> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-period="1">CK 1</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-period="2">CK 2</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-period="3">CK 3</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-period="4">CK 4</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-period="5">CK 5</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-period="6">CK 6</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-period="7">CK 7</button>
+      </div><!-- Group buttons -->
+      <div class="mt-2 flex flex-wrap justify-center gap-1"><span class="text-sm font-medium text-gray-600 mr-2">Nhóm:</span> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="1">IA</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="2">IIA</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="3">IIIB</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="4">IVB</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="5">VB</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="6">VIB</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="7">VIIB</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="8">VIIIB</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="9">VIIIB</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="10">VIIIB</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="11">IB</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="12">IIB</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="13">IIIA</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="14">IVA</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="15">VA</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="16">VIA</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="17">VIIA</button> <button class="control-btn px-2 py-1 rounded text-xs bg-green-50 text-green-700" data-group="18">VIIIA</button>
+      </div>
+     </div><!-- Periodic Table Grid -->
+     <div class="bg-white rounded-xl shadow-lg p-4 overflow-x-auto">
+      <div id="periodic-table" class="periodic-grid"><!-- Will be generated by JavaScript -->
+      </div><!-- Lanthanides and Actinides -->
+      <div class="mt-4 pt-4 border-t-2 border-dashed border-gray-300">
+       <div id="lanthanides" class="periodic-grid mb-2"><!-- Lanthanides -->
+       </div>
+       <div id="actinides" class="periodic-grid"><!-- Actinides -->
+       </div>
+      </div>
+     </div><!-- Legend -->
+     <div class="mt-4 bg-white rounded-xl shadow-lg p-4">
+      <h3 class="font-bold text-gray-700 mb-3 text-center">📋 Chú thích</h3>
+      <div class="flex flex-wrap justify-center gap-3">
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded alkali-metal"></div><span class="text-xs">Kim loại kiềm</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded alkaline-earth"></div><span class="text-xs">Kim loại kiềm thổ</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded transition-metal"></div><span class="text-xs">Kim loại chuyển tiếp</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded post-transition"></div><span class="text-xs">Kim loại yếu</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded metalloid"></div><span class="text-xs">Á kim</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded nonmetal"></div><span class="text-xs">Phi kim</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded halogen"></div><span class="text-xs">Halogen</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded noble-gas"></div><span class="text-xs">Khí hiếm</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded lanthanide"></div><span class="text-xs">Lanthanide</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded actinide"></div><span class="text-xs">Actinide</span>
+       </div>
+      </div>
+      <div class="flex flex-wrap justify-center gap-3 mt-3 pt-3 border-t">
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded bg-gray-300 block-s"></div><span class="text-xs">Khối s</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded bg-gray-300 block-p"></div><span class="text-xs">Khối p</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded bg-gray-300 block-d"></div><span class="text-xs">Khối d</span>
+       </div>
+       <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded bg-gray-300 block-f"></div><span class="text-xs">Khối f</span>
+       </div>
+      </div>
+     </div>
+    </div><!-- Tab 2: Electron Configuration -->
+    <div id="electron-tab" class="tab-panel hidden">
+     <div class="bg-white rounded-xl shadow-lg p-4 mb-4">
+      <h2 class="text-xl font-bold text-center text-blue-600 mb-4">CẤU HÌNH ELECTRON LỚP NGOÀI CÙNG CỦA CÁC NGUYÊN TỐ NHÓM A</h2>
+      <div class="flex flex-wrap justify-center gap-2 mb-4"><span class="text-sm font-medium text-gray-600">Chu kỳ:</span> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-electron-period="1">CK 1</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-electron-period="2">CK 2</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-electron-period="3">CK 3</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-electron-period="4">CK 4</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-electron-period="5">CK 5</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-electron-period="6">CK 6</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-electron-period="7">CK 7</button>
+      </div>
+      <div class="flex flex-wrap justify-center gap-2"><span class="text-sm font-medium text-gray-600">Nhóm:</span> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-electron-group="1">IA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-electron-group="2">IIA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-electron-group="13">IIIA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-electron-group="14">IVA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-electron-group="15">VA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-electron-group="16">VIA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-electron-group="17">VIIA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-electron-group="18">VIIIA</button>
+      </div>
+     </div>
+     <div id="electron-grid" class="bg-white rounded-xl shadow-lg p-4"><!-- Will be generated -->
+     </div>
+    </div><!-- Tab 3: Atomic Radius -->
+    <div id="radius-tab" class="tab-panel hidden">
+     <div class="bg-white rounded-xl shadow-lg p-4 mb-4">
+      <h2 class="text-xl font-bold text-center text-blue-600 mb-4">BẢNG BIẾN ĐỔI BÁN KÍNH NGUYÊN TỬ CÁC NGUYÊN TỐ NHÓM A</h2>
+      <div class="flex flex-wrap justify-center gap-2 mb-4"><span class="text-sm font-medium text-gray-600">Chu kỳ:</span> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-radius-period="1">CK 1</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-radius-period="2">CK 2</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-radius-period="3">CK 3</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-radius-period="4">CK 4</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-radius-period="5">CK 5</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-radius-period="6">CK 6</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-radius-period="7">CK 7</button>
+      </div>
+      <div class="flex flex-wrap justify-center gap-2"><span class="text-sm font-medium text-gray-600">Nhóm:</span> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-radius-group="1">IA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-radius-group="2">IIA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-radius-group="13">IIIA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-radius-group="14">IVA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-radius-group="15">VA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-radius-group="16">VIA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-radius-group="17">VIIA</button>
+      </div>
+     </div>
+     <div id="radius-grid" class="bg-white rounded-xl shadow-lg p-4"><!-- Will be generated -->
+     </div>
+    </div><!-- Tab 4: Electronegativity -->
+    <div id="electronegativity-tab" class="tab-panel hidden">
+     <div class="bg-white rounded-xl shadow-lg p-4 mb-4">
+      <h2 class="text-xl font-bold text-center text-blue-600 mb-4">BẢNG BIẾN ĐỔI ĐỘ ÂM ĐIỆN CÁC NGUYÊN TỐ NHÓM A (Thang Pauling)</h2>
+      <div class="flex flex-wrap justify-center gap-2 mb-4"><span class="text-sm font-medium text-gray-600">Chu kỳ:</span> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-en-period="1">CK 1</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-en-period="2">CK 2</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-en-period="3">CK 3</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-en-period="4">CK 4</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-en-period="5">CK 5</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-en-period="6">CK 6</button> <button class="control-btn px-3 py-1 rounded text-xs bg-blue-50 text-blue-700" data-en-period="7">CK 7</button>
+      </div>
+      <div class="flex flex-wrap justify-center gap-2"><span class="text-sm font-medium text-gray-600">Nhóm:</span> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-en-group="1">IA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-en-group="2">IIA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-en-group="13">IIIA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-en-group="14">IVA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-en-group="15">VA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-en-group="16">VIA</button> <button class="control-btn px-3 py-1 rounded text-xs bg-green-50 text-green-700" data-en-group="17">VIIA</button>
+      </div>
+     </div>
+     <div id="electronegativity-grid" class="bg-white rounded-xl shadow-lg p-4"><!-- Will be generated -->
+     </div>
+    </div>
+   </div><!-- Modal -->
+   <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden modal-overlay z-50 flex items-center justify-center p-4">
+    <div class="modal-content bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90%] overflow-y-auto">
+     <div id="modal-body" class="p-6"><!-- Modal content will be inserted here -->
+     </div>
+    </div>
+   </div><!-- Info Popup -->
+   <div id="info-popup" class="fixed bottom-4 right-4 bg-white rounded-xl shadow-2xl p-4 max-w-sm hidden z-40">
+    <div id="popup-content"></div><button id="close-popup" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">✕</button>
+   </div>
+  </div>
+  <script>
+    // Complete Elements Data (118 elements)
+    const elements = [
+      // Period 1
+      { number: 1, symbol: 'H', name: 'Hydro', nameEn: 'Hydrogen', mass: 1.008, period: 1, group: 1, category: 'nonmetal', block: 's', electronConfig: '1s¹', fullConfig: '1s¹', electronegativity: 2.20, radius: 53, state: 'Khí', oxidationStates: '+1, -1', applications: 'Nhiên liệu, sản xuất amoniac, hàn cắt kim loại' },
+      { number: 2, symbol: 'He', name: 'Heli', nameEn: 'Helium', mass: 4.003, period: 1, group: 18, category: 'noble-gas', block: 's', electronConfig: '1s²', fullConfig: '1s²', electronegativity: null, radius: 31, state: 'Khí', oxidationStates: '0', applications: 'Bóng bay, khí trơ trong hàn, làm mát' },
+      
+      // Period 2
+      { number: 3, symbol: 'Li', name: 'Lithi', nameEn: 'Lithium', mass: 6.94, period: 2, group: 1, category: 'alkali-metal', block: 's', electronConfig: '[He]2s¹', fullConfig: '1s²2s¹', electronegativity: 0.98, radius: 167, state: 'Rắn', oxidationStates: '+1', applications: 'Pin lithium, hợp kim nhẹ, thuốc' },
+      { number: 4, symbol: 'Be', name: 'Berili', nameEn: 'Beryllium', mass: 9.012, period: 2, group: 2, category: 'alkaline-earth', block: 's', electronConfig: '[He]2s²', fullConfig: '1s²2s²', electronegativity: 1.57, radius: 112, state: 'Rắn', oxidationStates: '+2', applications: 'Hợp kim, cửa sổ tia X, lò phản ứng' },
+      { number: 5, symbol: 'B', name: 'Bo', nameEn: 'Boron', mass: 10.81, period: 2, group: 13, category: 'metalloid', block: 'p', electronConfig: '[He]2s²2p¹', fullConfig: '1s²2s²2p¹', electronegativity: 2.04, radius: 87, state: 'Rắn', oxidationStates: '+3', applications: 'Thủy tinh chịu nhiệt, phân bón' },
+      { number: 6, symbol: 'C', name: 'Cacbon', nameEn: 'Carbon', mass: 12.01, period: 2, group: 14, category: 'nonmetal', block: 'p', electronConfig: '[He]2s²2p²', fullConfig: '1s²2s²2p²', electronegativity: 2.55, radius: 77, state: 'Rắn', oxidationStates: '+4, -4', applications: 'Nhiên liệu, vật liệu composite, kim cương' },
+      { number: 7, symbol: 'N', name: 'Nitơ', nameEn: 'Nitrogen', mass: 14.01, period: 2, group: 15, category: 'nonmetal', block: 'p', electronConfig: '[He]2s²2p³', fullConfig: '1s²2s²2p³', electronegativity: 3.04, radius: 75, state: 'Khí', oxidationStates: '+5, -3', applications: 'Phân bón, chất nổ, bảo quản thực phẩm' },
+      { number: 8, symbol: 'O', name: 'Oxi', nameEn: 'Oxygen', mass: 16.00, period: 2, group: 16, category: 'nonmetal', block: 'p', electronConfig: '[He]2s²2p⁴', fullConfig: '1s²2s²2p⁴', electronegativity: 3.44, radius: 73, state: 'Khí', oxidationStates: '-2', applications: 'Hô hấp, đốt cháy, y tế' },
+      { number: 9, symbol: 'F', name: 'Flo', nameEn: 'Fluorine', mass: 19.00, period: 2, group: 17, category: 'halogen', block: 'p', electronConfig: '[He]2s²2p⁵', fullConfig: '1s²2s²2p⁵', electronegativity: 3.98, radius: 71, state: 'Khí', oxidationStates: '-1', applications: 'Kem đánh răng, chất làm lạnh, teflon' },
+      { number: 10, symbol: 'Ne', name: 'Neon', nameEn: 'Neon', mass: 20.18, period: 2, group: 18, category: 'noble-gas', block: 'p', electronConfig: '[He]2s²2p⁶', fullConfig: '1s²2s²2p⁶', electronegativity: null, radius: 38, state: 'Khí', oxidationStates: '0', applications: 'Đèn neon, laser' },
+      
+      // Period 3
+      { number: 11, symbol: 'Na', name: 'Natri', nameEn: 'Sodium', mass: 22.99, period: 3, group: 1, category: 'alkali-metal', block: 's', electronConfig: '[Ne]3s¹', fullConfig: '1s²2s²2p⁶3s¹', electronegativity: 0.93, radius: 190, state: 'Rắn', oxidationStates: '+1', applications: 'Muối ăn, xà phòng, đèn đường' },
+      { number: 12, symbol: 'Mg', name: 'Magie', nameEn: 'Magnesium', mass: 24.31, period: 3, group: 2, category: 'alkaline-earth', block: 's', electronConfig: '[Ne]3s²', fullConfig: '1s²2s²2p⁶3s²', electronegativity: 1.31, radius: 145, state: 'Rắn', oxidationStates: '+2', applications: 'Hợp kim nhẹ, pháo hoa, thuốc' },
+      { number: 13, symbol: 'Al', name: 'Nhôm', nameEn: 'Aluminum', mass: 26.98, period: 3, group: 13, category: 'post-transition', block: 'p', electronConfig: '[Ne]3s²3p¹', fullConfig: '1s²2s²2p⁶3s²3p¹', electronegativity: 1.61, radius: 118, state: 'Rắn', oxidationStates: '+3', applications: 'Vỏ máy bay, đồ gia dụng, dây điện' },
+      { number: 14, symbol: 'Si', name: 'Silic', nameEn: 'Silicon', mass: 28.09, period: 3, group: 14, category: 'metalloid', block: 'p', electronConfig: '[Ne]3s²3p²', fullConfig: '1s²2s²2p⁶3s²3p²', electronegativity: 1.90, radius: 111, state: 'Rắn', oxidationStates: '+4, -4', applications: 'Chip điện tử, thủy tinh, năng lượng mặt trời' },
+      { number: 15, symbol: 'P', name: 'Photpho', nameEn: 'Phosphorus', mass: 30.97, period: 3, group: 15, category: 'nonmetal', block: 'p', electronConfig: '[Ne]3s²3p³', fullConfig: '1s²2s²2p⁶3s²3p³', electronegativity: 2.19, radius: 98, state: 'Rắn', oxidationStates: '+5, -3', applications: 'Phân bón, diêm, chất tẩy rửa' },
+      { number: 16, symbol: 'S', name: 'Lưu huỳnh', nameEn: 'Sulfur', mass: 32.07, period: 3, group: 16, category: 'nonmetal', block: 'p', electronConfig: '[Ne]3s²3p⁴', fullConfig: '1s²2s²2p⁶3s²3p⁴', electronegativity: 2.58, radius: 88, state: 'Rắn', oxidationStates: '+6, -2', applications: 'Axit sulfuric, cao su, thuốc trừ sâu' },
+      { number: 17, symbol: 'Cl', name: 'Clo', nameEn: 'Chlorine', mass: 35.45, period: 3, group: 17, category: 'halogen', block: 'p', electronConfig: '[Ne]3s²3p⁵', fullConfig: '1s²2s²2p⁶3s²3p⁵', electronegativity: 3.16, radius: 79, state: 'Khí', oxidationStates: '-1, +7', applications: 'Khử trùng nước, PVC, thuốc tẩy' },
+      { number: 18, symbol: 'Ar', name: 'Argon', nameEn: 'Argon', mass: 39.95, period: 3, group: 18, category: 'noble-gas', block: 'p', electronConfig: '[Ne]3s²3p⁶', fullConfig: '1s²2s²2p⁶3s²3p⁶', electronegativity: null, radius: 71, state: 'Khí', oxidationStates: '0', applications: 'Hàn, bóng đèn, bảo quản' },
+      
+      // Period 4
+      { number: 19, symbol: 'K', name: 'Kali', nameEn: 'Potassium', mass: 39.10, period: 4, group: 1, category: 'alkali-metal', block: 's', electronConfig: '[Ar]4s¹', fullConfig: '1s²2s²2p⁶3s²3p⁶4s¹', electronegativity: 0.82, radius: 243, state: 'Rắn', oxidationStates: '+1', applications: 'Phân bón, xà phòng, pháo hoa' },
+      { number: 20, symbol: 'Ca', name: 'Canxi', nameEn: 'Calcium', mass: 40.08, period: 4, group: 2, category: 'alkaline-earth', block: 's', electronConfig: '[Ar]4s²', fullConfig: '1s²2s²2p⁶3s²3p⁶4s²', electronegativity: 1.00, radius: 194, state: 'Rắn', oxidationStates: '+2', applications: 'Xi măng, xương, thực phẩm' },
+      { number: 21, symbol: 'Sc', name: 'Scandi', nameEn: 'Scandium', mass: 44.96, period: 4, group: 3, category: 'transition-metal', block: 'd', electronConfig: '[Ar]3d¹4s²', fullConfig: '1s²2s²2p⁶3s²3p⁶3d¹4s²', electronegativity: 1.36, radius: 184, state: 'Rắn', oxidationStates: '+3', applications: 'Hợp kim nhôm, đèn stadium' },
+      { number: 22, symbol: 'Ti', name: 'Titan', nameEn: 'Titanium', mass: 47.87, period: 4, group: 4, category: 'transition-metal', block: 'd', electronConfig: '[Ar]3d²4s²', fullConfig: '1s²2s²2p⁶3s²3p⁶3d²4s²', electronegativity: 1.54, radius: 176, state: 'Rắn', oxidationStates: '+4', applications: 'Máy bay, implant y tế, sơn' },
+      { number: 23, symbol: 'V', name: 'Vanadi', nameEn: 'Vanadium', mass: 50.94, period: 4, group: 5, category: 'transition-metal', block: 'd', electronConfig: '[Ar]3d³4s²', fullConfig: '1s²2s²2p⁶3s²3p⁶3d³4s²', electronegativity: 1.63, radius: 171, state: 'Rắn', oxidationStates: '+5', applications: 'Thép hợp kim, pin vanadium' },
+      { number: 24, symbol: 'Cr', name: 'Crom', nameEn: 'Chromium', mass: 52.00, period: 4, group: 6, category: 'transition-metal', block: 'd', electronConfig: '[Ar]3d⁵4s¹', fullConfig: '1s²2s²2p⁶3s²3p⁶3d⁵4s¹', electronegativity: 1.66, radius: 166, state: 'Rắn', oxidationStates: '+3, +6', applications: 'Mạ crom, thép không gỉ, thuốc nhuộm' },
+      { number: 25, symbol: 'Mn', name: 'Mangan', nameEn: 'Manganese', mass: 54.94, period: 4, group: 7, category: 'transition-metal', block: 'd', electronConfig: '[Ar]3d⁵4s²', fullConfig: '1s²2s²2p⁶3s²3p⁶3d⁵4s²', electronegativity: 1.55, radius: 161, state: 'Rắn', oxidationStates: '+2, +7', applications: 'Thép, pin, thủy tinh' },
+      { number: 26, symbol: 'Fe', name: 'Sắt', nameEn: 'Iron', mass: 55.85, period: 4, group: 8, category: 'transition-metal', block: 'd', electronConfig: '[Ar]3d⁶4s²', fullConfig: '1s²2s²2p⁶3s²3p⁶3d⁶4s²', electronegativity: 1.83, radius: 156, state: 'Rắn', oxidationStates: '+2, +3', applications: 'Xây dựng, máy móc, hemoglobin' },
+      { number: 27, symbol: 'Co', name: 'Coban', nameEn: 'Cobalt', mass: 58.93, period: 4, group: 9, category: 'transition-metal', block: 'd', electronConfig: '[Ar]3d⁷4s²', fullConfig: '1s²2s²2p⁶3s²3p⁶3d⁷4s²', electronegativity: 1.88, radius: 152, state: 'Rắn', oxidationStates: '+2, +3', applications: 'Pin lithium, hợp kim, thuốc nhuộm' },
+      { number: 28, symbol: 'Ni', name: 'Niken', nameEn: 'Nickel', mass: 58.69, period: 4, group: 10, category: 'transition-metal', block: 'd', electronConfig: '[Ar]3d⁸4s²', fullConfig: '1s²2s²2p⁶3s²3p⁶3d⁸4s²', electronegativity: 1.91, radius: 149, state: 'Rắn', oxidationStates: '+2', applications: 'Mạ, pin NiMH, thép không gỉ' },
+      { number: 29, symbol: 'Cu', name: 'Đồng', nameEn: 'Copper', mass: 63.55, period: 4, group: 11, category: 'transition-metal', block: 'd', electronConfig: '[Ar]3d¹⁰4s¹', fullConfig: '1s²2s²2p⁶3s²3p⁶3d¹⁰4s¹', electronegativity: 1.90, radius: 145, state: 'Rắn', oxidationStates: '+1, +2', applications: 'Dây điện, ống nước, hợp kim' },
+      { number: 30, symbol: 'Zn', name: 'Kẽm', nameEn: 'Zinc', mass: 65.38, period: 4, group: 12, category: 'transition-metal', block: 'd', electronConfig: '[Ar]3d¹⁰4s²', fullConfig: '1s²2s²2p⁶3s²3p⁶3d¹⁰4s²', electronegativity: 1.65, radius: 142, state: 'Rắn', oxidationStates: '+2', applications: 'Mạ kẽm, pin, kem chống nắng' },
+      { number: 31, symbol: 'Ga', name: 'Gali', nameEn: 'Gallium', mass: 69.72, period: 4, group: 13, category: 'post-transition', block: 'p', electronConfig: '[Ar]3d¹⁰4s²4p¹', fullConfig: '1s²2s²2p⁶3s²3p⁶3d¹⁰4s²4p¹', electronegativity: 1.81, radius: 136, state: 'Rắn', oxidationStates: '+3', applications: 'LED, chip điện tử, nhiệt kế' },
+      { number: 32, symbol: 'Ge', name: 'Gecmani', nameEn: 'Germanium', mass: 72.63, period: 4, group: 14, category: 'metalloid', block: 'p', electronConfig: '[Ar]3d¹⁰4s²4p²', fullConfig: '1s²2s²2p⁶3s²3p⁶3d¹⁰4s²4p²', electronegativity: 2.01, radius: 125, state: 'Rắn', oxidationStates: '+4', applications: 'Bán dẫn, sợi quang học, IR' },
+      { number: 33, symbol: 'As', name: 'Asen', nameEn: 'Arsenic', mass: 74.92, period: 4, group: 15, category: 'metalloid', block: 'p', electronConfig: '[Ar]3d¹⁰4s²4p³', fullConfig: '1s²2s²2p⁶3s²3p⁶3d¹⁰4s²4p³', electronegativity: 2.18, radius: 114, state: 'Rắn', oxidationStates: '+5, -3', applications: 'Bán dẫn, thuốc trừ sâu, gỗ' },
+      { number: 34, symbol: 'Se', name: 'Selen', nameEn: 'Selenium', mass: 78.97, period: 4, group: 16, category: 'nonmetal', block: 'p', electronConfig: '[Ar]3d¹⁰4s²4p⁴', fullConfig: '1s²2s²2p⁶3s²3p⁶3d¹⁰4s²4p⁴', electronegativity: 2.55, radius: 103, state: 'Rắn', oxidationStates: '+6, -2', applications: 'Quang điện, thủy tinh, thực phẩm' },
+      { number: 35, symbol: 'Br', name: 'Brom', nameEn: 'Bromine', mass: 79.90, period: 4, group: 17, category: 'halogen', block: 'p', electronConfig: '[Ar]3d¹⁰4s²4p⁵', fullConfig: '1s²2s²2p⁶3s²3p⁶3d¹⁰4s²4p⁵', electronegativity: 2.96, radius: 94, state: 'Lỏng', oxidationStates: '-1, +5', applications: 'Chống cháy, thuốc, nhiếp ảnh' },
+      { number: 36, symbol: 'Kr', name: 'Kripton', nameEn: 'Krypton', mass: 83.80, period: 4, group: 18, category: 'noble-gas', block: 'p', electronConfig: '[Ar]3d¹⁰4s²4p⁶', fullConfig: '1s²2s²2p⁶3s²3p⁶3d¹⁰4s²4p⁶', electronegativity: 3.00, radius: 88, state: 'Khí', oxidationStates: '0', applications: 'Laser, đèn flash, cửa kính' },
+      
+      // Period 5
+      { number: 37, symbol: 'Rb', name: 'Rubidi', nameEn: 'Rubidium', mass: 85.47, period: 5, group: 1, category: 'alkali-metal', block: 's', electronConfig: '[Kr]5s¹', fullConfig: '[Kr]5s¹', electronegativity: 0.82, radius: 265, state: 'Rắn', oxidationStates: '+1', applications: 'Đồng hồ nguyên tử, pháo hoa' },
+      { number: 38, symbol: 'Sr', name: 'Stronti', nameEn: 'Strontium', mass: 87.62, period: 5, group: 2, category: 'alkaline-earth', block: 's', electronConfig: '[Kr]5s²', fullConfig: '[Kr]5s²', electronegativity: 0.95, radius: 219, state: 'Rắn', oxidationStates: '+2', applications: 'Pháo hoa đỏ, nam châm, thủy tinh' },
+      { number: 39, symbol: 'Y', name: 'Ytri', nameEn: 'Yttrium', mass: 88.91, period: 5, group: 3, category: 'transition-metal', block: 'd', electronConfig: '[Kr]4d¹5s²', fullConfig: '[Kr]4d¹5s²', electronegativity: 1.22, radius: 212, state: 'Rắn', oxidationStates: '+3', applications: 'LED, laser YAG, siêu dẫn' },
+      { number: 40, symbol: 'Zr', name: 'Zirconi', nameEn: 'Zirconium', mass: 91.22, period: 5, group: 4, category: 'transition-metal', block: 'd', electronConfig: '[Kr]4d²5s²', fullConfig: '[Kr]4d²5s²', electronegativity: 1.33, radius: 206, state: 'Rắn', oxidationStates: '+4', applications: 'Lò phản ứng hạt nhân, gốm sứ' },
+      { number: 41, symbol: 'Nb', name: 'Niobi', nameEn: 'Niobium', mass: 92.91, period: 5, group: 5, category: 'transition-metal', block: 'd', electronConfig: '[Kr]4d⁴5s¹', fullConfig: '[Kr]4d⁴5s¹', electronegativity: 1.6, radius: 198, state: 'Rắn', oxidationStates: '+5', applications: 'Siêu dẫn, hợp kim thép' },
+      { number: 42, symbol: 'Mo', name: 'Molypden', nameEn: 'Molybdenum', mass: 95.95, period: 5, group: 6, category: 'transition-metal', block: 'd', electronConfig: '[Kr]4d⁵5s¹', fullConfig: '[Kr]4d⁵5s¹', electronegativity: 2.16, radius: 190, state: 'Rắn', oxidationStates: '+6', applications: 'Thép hợp kim, xúc tác' },
+      { number: 43, symbol: 'Tc', name: 'Tecneti', nameEn: 'Technetium', mass: 98, period: 5, group: 7, category: 'transition-metal', block: 'd', electronConfig: '[Kr]4d⁵5s²', fullConfig: '[Kr]4d⁵5s²', electronegativity: 1.9, radius: 183, state: 'Rắn', oxidationStates: '+7', applications: 'Y học hạt nhân, chẩn đoán' },
+      { number: 44, symbol: 'Ru', name: 'Rutheni', nameEn: 'Ruthenium', mass: 101.1, period: 5, group: 8, category: 'transition-metal', block: 'd', electronConfig: '[Kr]4d⁷5s¹', fullConfig: '[Kr]4d⁷5s¹', electronegativity: 2.2, radius: 178, state: 'Rắn', oxidationStates: '+3, +4', applications: 'Xúc tác, điện tử, mạ' },
+      { number: 45, symbol: 'Rh', name: 'Rhodi', nameEn: 'Rhodium', mass: 102.9, period: 5, group: 9, category: 'transition-metal', block: 'd', electronConfig: '[Kr]4d⁸5s¹', fullConfig: '[Kr]4d⁸5s¹', electronegativity: 2.28, radius: 173, state: 'Rắn', oxidationStates: '+3', applications: 'Bộ xúc tác ô tô, gương, mạ' },
+      { number: 46, symbol: 'Pd', name: 'Paladi', nameEn: 'Palladium', mass: 106.4, period: 5, group: 10, category: 'transition-metal', block: 'd', electronConfig: '[Kr]4d¹⁰', fullConfig: '[Kr]4d¹⁰', electronegativity: 2.20, radius: 169, state: 'Rắn', oxidationStates: '+2, +4', applications: 'Bộ xúc tác, nha khoa, điện tử' },
+      { number: 47, symbol: 'Ag', name: 'Bạc', nameEn: 'Silver', mass: 107.9, period: 5, group: 11, category: 'transition-metal', block: 'd', electronConfig: '[Kr]4d¹⁰5s¹', fullConfig: '[Kr]4d¹⁰5s¹', electronegativity: 1.93, radius: 165, state: 'Rắn', oxidationStates: '+1', applications: 'Trang sức, nhiếp ảnh, điện tử' },
+      { number: 48, symbol: 'Cd', name: 'Cadimi', nameEn: 'Cadmium', mass: 112.4, period: 5, group: 12, category: 'transition-metal', block: 'd', electronConfig: '[Kr]4d¹⁰5s²', fullConfig: '[Kr]4d¹⁰5s²', electronegativity: 1.69, radius: 161, state: 'Rắn', oxidationStates: '+2', applications: 'Pin NiCd, mạ, sơn' },
+      { number: 49, symbol: 'In', name: 'Indi', nameEn: 'Indium', mass: 114.8, period: 5, group: 13, category: 'post-transition', block: 'p', electronConfig: '[Kr]4d¹⁰5s²5p¹', fullConfig: '[Kr]4d¹⁰5s²5p¹', electronegativity: 1.78, radius: 156, state: 'Rắn', oxidationStates: '+3', applications: 'Màn hình LCD, hàn, bán dẫn' },
+      { number: 50, symbol: 'Sn', name: 'Thiếc', nameEn: 'Tin', mass: 118.7, period: 5, group: 14, category: 'post-transition', block: 'p', electronConfig: '[Kr]4d¹⁰5s²5p²', fullConfig: '[Kr]4d¹⁰5s²5p²', electronegativity: 1.96, radius: 145, state: 'Rắn', oxidationStates: '+2, +4', applications: 'Hàn, hộp thiếc, hợp kim đồng' },
+      { number: 51, symbol: 'Sb', name: 'Antimon', nameEn: 'Antimony', mass: 121.8, period: 5, group: 15, category: 'metalloid', block: 'p', electronConfig: '[Kr]4d¹⁰5s²5p³', fullConfig: '[Kr]4d¹⁰5s²5p³', electronegativity: 2.05, radius: 133, state: 'Rắn', oxidationStates: '+3, +5', applications: 'Chống cháy, hợp kim chì, pin' },
+      { number: 52, symbol: 'Te', name: 'Telua', nameEn: 'Tellurium', mass: 127.6, period: 5, group: 16, category: 'metalloid', block: 'p', electronConfig: '[Kr]4d¹⁰5s²5p⁴', fullConfig: '[Kr]4d¹⁰5s²5p⁴', electronegativity: 2.1, radius: 123, state: 'Rắn', oxidationStates: '+6, -2', applications: 'Pin mặt trời, hợp kim, cao su' },
+      { number: 53, symbol: 'I', name: 'Iot', nameEn: 'Iodine', mass: 126.9, period: 5, group: 17, category: 'halogen', block: 'p', electronConfig: '[Kr]4d¹⁰5s²5p⁵', fullConfig: '[Kr]4d¹⁰5s²5p⁵', electronegativity: 2.66, radius: 115, state: 'Rắn', oxidationStates: '-1, +7', applications: 'Muối iốt, thuốc sát trùng, thuốc nhuộm' },
+      { number: 54, symbol: 'Xe', name: 'Xenon', nameEn: 'Xenon', mass: 131.3, period: 5, group: 18, category: 'noble-gas', block: 'p', electronConfig: '[Kr]4d¹⁰5s²5p⁶', fullConfig: '[Kr]4d¹⁰5s²5p⁶', electronegativity: 2.60, radius: 108, state: 'Khí', oxidationStates: '0', applications: 'Đèn flash, gây mê, ion propulsion' },
+      
+      // Period 6
+      { number: 55, symbol: 'Cs', name: 'Xesi', nameEn: 'Cesium', mass: 132.9, period: 6, group: 1, category: 'alkali-metal', block: 's', electronConfig: '[Xe]6s¹', fullConfig: '[Xe]6s¹', electronegativity: 0.79, radius: 298, state: 'Rắn', oxidationStates: '+1', applications: 'Đồng hồ nguyên tử, dầu khoan' },
+      { number: 56, symbol: 'Ba', name: 'Bari', nameEn: 'Barium', mass: 137.3, period: 6, group: 2, category: 'alkaline-earth', block: 's', electronConfig: '[Xe]6s²', fullConfig: '[Xe]6s²', electronegativity: 0.89, radius: 253, state: 'Rắn', oxidationStates: '+2', applications: 'Pháo hoa xanh, chụp X-quang' },
+      // Lanthanides 57-71
+      { number: 57, symbol: 'La', name: 'Lantan', nameEn: 'Lanthanum', mass: 138.9, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]5d¹6s²', fullConfig: '[Xe]5d¹6s²', electronegativity: 1.1, radius: 195, state: 'Rắn', oxidationStates: '+3', applications: 'Pin hybrid, thấu kính, đánh lửa' },
+      { number: 58, symbol: 'Ce', name: 'Xeri', nameEn: 'Cerium', mass: 140.1, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f¹5d¹6s²', fullConfig: '[Xe]4f¹5d¹6s²', electronegativity: 1.12, radius: 185, state: 'Rắn', oxidationStates: '+3, +4', applications: 'Đánh bóng kính, xúc tác' },
+      { number: 59, symbol: 'Pr', name: 'Praseodymi', nameEn: 'Praseodymium', mass: 140.9, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f³6s²', fullConfig: '[Xe]4f³6s²', electronegativity: 1.13, radius: 185, state: 'Rắn', oxidationStates: '+3', applications: 'Nam châm, thủy tinh màu' },
+      { number: 60, symbol: 'Nd', name: 'Neodymi', nameEn: 'Neodymium', mass: 144.2, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f⁴6s²', fullConfig: '[Xe]4f⁴6s²', electronegativity: 1.14, radius: 185, state: 'Rắn', oxidationStates: '+3', applications: 'Nam châm mạnh, laser' },
+      { number: 61, symbol: 'Pm', name: 'Promethi', nameEn: 'Promethium', mass: 145, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f⁵6s²', fullConfig: '[Xe]4f⁵6s²', electronegativity: 1.13, radius: 185, state: 'Rắn', oxidationStates: '+3', applications: 'Pin hạt nhân, sơn phát quang' },
+      { number: 62, symbol: 'Sm', name: 'Samari', nameEn: 'Samarium', mass: 150.4, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f⁶6s²', fullConfig: '[Xe]4f⁶6s²', electronegativity: 1.17, radius: 185, state: 'Rắn', oxidationStates: '+3', applications: 'Nam châm, xạ trị' },
+      { number: 63, symbol: 'Eu', name: 'Europi', nameEn: 'Europium', mass: 152.0, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f⁷6s²', fullConfig: '[Xe]4f⁷6s²', electronegativity: 1.2, radius: 185, state: 'Rắn', oxidationStates: '+2, +3', applications: 'TV màu, tiền giấy bảo mật' },
+      { number: 64, symbol: 'Gd', name: 'Gadolini', nameEn: 'Gadolinium', mass: 157.3, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f⁷5d¹6s²', fullConfig: '[Xe]4f⁷5d¹6s²', electronegativity: 1.2, radius: 180, state: 'Rắn', oxidationStates: '+3', applications: 'MRI, lò phản ứng hạt nhân' },
+      { number: 65, symbol: 'Tb', name: 'Terbi', nameEn: 'Terbium', mass: 158.9, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f⁹6s²', fullConfig: '[Xe]4f⁹6s²', electronegativity: 1.2, radius: 177, state: 'Rắn', oxidationStates: '+3', applications: 'Đèn huỳnh quang, nam châm' },
+      { number: 66, symbol: 'Dy', name: 'Dysprosi', nameEn: 'Dysprosium', mass: 162.5, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f¹⁰6s²', fullConfig: '[Xe]4f¹⁰6s²', electronegativity: 1.22, radius: 178, state: 'Rắn', oxidationStates: '+3', applications: 'Nam châm, laser, neutron capture' },
+      { number: 67, symbol: 'Ho', name: 'Holmi', nameEn: 'Holmium', mass: 164.9, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f¹¹6s²', fullConfig: '[Xe]4f¹¹6s²', electronegativity: 1.23, radius: 176, state: 'Rắn', oxidationStates: '+3', applications: 'Laser y tế, nam châm' },
+      { number: 68, symbol: 'Er', name: 'Erbi', nameEn: 'Erbium', mass: 167.3, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f¹²6s²', fullConfig: '[Xe]4f¹²6s²', electronegativity: 1.24, radius: 176, state: 'Rắn', oxidationStates: '+3', applications: 'Sợi quang, laser, kính râm' },
+      { number: 69, symbol: 'Tm', name: 'Thuli', nameEn: 'Thulium', mass: 168.9, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f¹³6s²', fullConfig: '[Xe]4f¹³6s²', electronegativity: 1.25, radius: 176, state: 'Rắn', oxidationStates: '+3', applications: 'X-quang di động, laser' },
+      { number: 70, symbol: 'Yb', name: 'Ytterbi', nameEn: 'Ytterbium', mass: 173.0, period: 6, group: 3, category: 'lanthanide', block: 'f', electronConfig: '[Xe]4f¹⁴6s²', fullConfig: '[Xe]4f¹⁴6s²', electronegativity: 1.1, radius: 176, state: 'Rắn', oxidationStates: '+2, +3', applications: 'Laser, thép không gỉ' },
+      { number: 71, symbol: 'Lu', name: 'Luteti', nameEn: 'Lutetium', mass: 175.0, period: 6, group: 3, category: 'lanthanide', block: 'd', electronConfig: '[Xe]4f¹⁴5d¹6s²', fullConfig: '[Xe]4f¹⁴5d¹6s²', electronegativity: 1.27, radius: 174, state: 'Rắn', oxidationStates: '+3', applications: 'PET scan, xúc tác' },
+      // Continue period 6
+      { number: 72, symbol: 'Hf', name: 'Hafni', nameEn: 'Hafnium', mass: 178.5, period: 6, group: 4, category: 'transition-metal', block: 'd', electronConfig: '[Xe]4f¹⁴5d²6s²', fullConfig: '[Xe]4f¹⁴5d²6s²', electronegativity: 1.3, radius: 208, state: 'Rắn', oxidationStates: '+4', applications: 'Thanh điều khiển hạt nhân, vi xử lý' },
+      { number: 73, symbol: 'Ta', name: 'Tantan', nameEn: 'Tantalum', mass: 180.9, period: 6, group: 5, category: 'transition-metal', block: 'd', electronConfig: '[Xe]4f¹⁴5d³6s²', fullConfig: '[Xe]4f¹⁴5d³6s²', electronegativity: 1.5, radius: 200, state: 'Rắn', oxidationStates: '+5', applications: 'Tụ điện, implant y tế' },
+      { number: 74, symbol: 'W', name: 'Vonfam', nameEn: 'Tungsten', mass: 183.8, period: 6, group: 6, category: 'transition-metal', block: 'd', electronConfig: '[Xe]4f¹⁴5d⁴6s²', fullConfig: '[Xe]4f¹⁴5d⁴6s²', electronegativity: 2.36, radius: 193, state: 'Rắn', oxidationStates: '+6', applications: 'Dây tóc bóng đèn, dụng cụ cắt' },
+      { number: 75, symbol: 'Re', name: 'Rheni', nameEn: 'Rhenium', mass: 186.2, period: 6, group: 7, category: 'transition-metal', block: 'd', electronConfig: '[Xe]4f¹⁴5d⁵6s²', fullConfig: '[Xe]4f¹⁴5d⁵6s²', electronegativity: 1.9, radius: 188, state: 'Rắn', oxidationStates: '+7', applications: 'Động cơ phản lực, xúc tác' },
+      { number: 76, symbol: 'Os', name: 'Osmi', nameEn: 'Osmium', mass: 190.2, period: 6, group: 8, category: 'transition-metal', block: 'd', electronConfig: '[Xe]4f¹⁴5d⁶6s²', fullConfig: '[Xe]4f¹⁴5d⁶6s²', electronegativity: 2.2, radius: 185, state: 'Rắn', oxidationStates: '+4', applications: 'Kim bút máy, hợp kim cứng' },
+      { number: 77, symbol: 'Ir', name: 'Iridi', nameEn: 'Iridium', mass: 192.2, period: 6, group: 9, category: 'transition-metal', block: 'd', electronConfig: '[Xe]4f¹⁴5d⁷6s²', fullConfig: '[Xe]4f¹⁴5d⁷6s²', electronegativity: 2.2, radius: 180, state: 'Rắn', oxidationStates: '+3, +4', applications: 'Bugi, điện cực, tiêu chuẩn đo' },
+      { number: 78, symbol: 'Pt', name: 'Platin', nameEn: 'Platinum', mass: 195.1, period: 6, group: 10, category: 'transition-metal', block: 'd', electronConfig: '[Xe]4f¹⁴5d⁹6s¹', fullConfig: '[Xe]4f¹⁴5d⁹6s¹', electronegativity: 2.28, radius: 177, state: 'Rắn', oxidationStates: '+2, +4', applications: 'Trang sức, xúc tác, điện cực' },
+      { number: 79, symbol: 'Au', name: 'Vàng', nameEn: 'Gold', mass: 197.0, period: 6, group: 11, category: 'transition-metal', block: 'd', electronConfig: '[Xe]4f¹⁴5d¹⁰6s¹', fullConfig: '[Xe]4f¹⁴5d¹⁰6s¹', electronegativity: 2.54, radius: 174, state: 'Rắn', oxidationStates: '+1, +3', applications: 'Trang sức, điện tử, tiền tệ' },
+      { number: 80, symbol: 'Hg', name: 'Thủy ngân', nameEn: 'Mercury', mass: 200.6, period: 6, group: 12, category: 'transition-metal', block: 'd', electronConfig: '[Xe]4f¹⁴5d¹⁰6s²', fullConfig: '[Xe]4f¹⁴5d¹⁰6s²', electronegativity: 2.00, radius: 171, state: 'Lỏng', oxidationStates: '+1, +2', applications: 'Nhiệt kế, đèn huỳnh quang, nha khoa' },
+      { number: 81, symbol: 'Tl', name: 'Tali', nameEn: 'Thallium', mass: 204.4, period: 6, group: 13, category: 'post-transition', block: 'p', electronConfig: '[Xe]4f¹⁴5d¹⁰6s²6p¹', fullConfig: '[Xe]4f¹⁴5d¹⁰6s²6p¹', electronegativity: 1.62, radius: 156, state: 'Rắn', oxidationStates: '+1, +3', applications: 'Điện tử, quang học hồng ngoại' },
+      { number: 82, symbol: 'Pb', name: 'Chì', nameEn: 'Lead', mass: 207.2, period: 6, group: 14, category: 'post-transition', block: 'p', electronConfig: '[Xe]4f¹⁴5d¹⁰6s²6p²', fullConfig: '[Xe]4f¹⁴5d¹⁰6s²6p²', electronegativity: 2.33, radius: 154, state: 'Rắn', oxidationStates: '+2, +4', applications: 'Pin, chắn bức xạ, hàn' },
+      { number: 83, symbol: 'Bi', name: 'Bismut', nameEn: 'Bismuth', mass: 209.0, period: 6, group: 15, category: 'post-transition', block: 'p', electronConfig: '[Xe]4f¹⁴5d¹⁰6s²6p³', fullConfig: '[Xe]4f¹⁴5d¹⁰6s²6p³', electronegativity: 2.02, radius: 143, state: 'Rắn', oxidationStates: '+3, +5', applications: 'Thuốc, hợp kim, mỹ phẩm' },
+      { number: 84, symbol: 'Po', name: 'Poloni', nameEn: 'Polonium', mass: 209, period: 6, group: 16, category: 'metalloid', block: 'p', electronConfig: '[Xe]4f¹⁴5d¹⁰6s²6p⁴', fullConfig: '[Xe]4f¹⁴5d¹⁰6s²6p⁴', electronegativity: 2.0, radius: 135, state: 'Rắn', oxidationStates: '+4, -2', applications: 'Nguồn nhiệt vệ tinh, khử tĩnh điện' },
+      { number: 85, symbol: 'At', name: 'Astatin', nameEn: 'Astatine', mass: 210, period: 6, group: 17, category: 'halogen', block: 'p', electronConfig: '[Xe]4f¹⁴5d¹⁰6s²6p⁵', fullConfig: '[Xe]4f¹⁴5d¹⁰6s²6p⁵', electronegativity: 2.2, radius: 127, state: 'Rắn', oxidationStates: '-1, +7', applications: 'Điều trị ung thư (nghiên cứu)' },
+      { number: 86, symbol: 'Rn', name: 'Radon', nameEn: 'Radon', mass: 222, period: 6, group: 18, category: 'noble-gas', block: 'p', electronConfig: '[Xe]4f¹⁴5d¹⁰6s²6p⁶', fullConfig: '[Xe]4f¹⁴5d¹⁰6s²6p⁶', electronegativity: null, radius: 120, state: 'Khí', oxidationStates: '0', applications: 'Điều trị ung thư, theo dõi động đất' },
+      
+      // Period 7
+      { number: 87, symbol: 'Fr', name: 'Franxi', nameEn: 'Francium', mass: 223, period: 7, group: 1, category: 'alkali-metal', block: 's', electronConfig: '[Rn]7s¹', fullConfig: '[Rn]7s¹', electronegativity: 0.7, radius: 348, state: 'Rắn', oxidationStates: '+1', applications: 'Nghiên cứu khoa học' },
+      { number: 88, symbol: 'Ra', name: 'Radi', nameEn: 'Radium', mass: 226, period: 7, group: 2, category: 'alkaline-earth', block: 's', electronConfig: '[Rn]7s²', fullConfig: '[Rn]7s²', electronegativity: 0.9, radius: 283, state: 'Rắn', oxidationStates: '+2', applications: 'Điều trị ung thư, sơn phát quang' },
+      // Actinides 89-103
+      { number: 89, symbol: 'Ac', name: 'Actini', nameEn: 'Actinium', mass: 227, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]6d¹7s²', fullConfig: '[Rn]6d¹7s²', electronegativity: 1.1, radius: 195, state: 'Rắn', oxidationStates: '+3', applications: 'Nguồn neutron, xạ trị' },
+      { number: 90, symbol: 'Th', name: 'Thori', nameEn: 'Thorium', mass: 232.0, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]6d²7s²', fullConfig: '[Rn]6d²7s²', electronegativity: 1.3, radius: 180, state: 'Rắn', oxidationStates: '+4', applications: 'Nhiên liệu hạt nhân, áo đèn măng sông' },
+      { number: 91, symbol: 'Pa', name: 'Protactini', nameEn: 'Protactinium', mass: 231.0, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f²6d¹7s²', fullConfig: '[Rn]5f²6d¹7s²', electronegativity: 1.5, radius: 180, state: 'Rắn', oxidationStates: '+5', applications: 'Nghiên cứu khoa học' },
+      { number: 92, symbol: 'U', name: 'Urani', nameEn: 'Uranium', mass: 238.0, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f³6d¹7s²', fullConfig: '[Rn]5f³6d¹7s²', electronegativity: 1.38, radius: 175, state: 'Rắn', oxidationStates: '+6', applications: 'Nhiên liệu hạt nhân, vũ khí' },
+      { number: 93, symbol: 'Np', name: 'Neptuni', nameEn: 'Neptunium', mass: 237, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f⁴6d¹7s²', fullConfig: '[Rn]5f⁴6d¹7s²', electronegativity: 1.36, radius: 175, state: 'Rắn', oxidationStates: '+5', applications: 'Phát hiện neutron' },
+      { number: 94, symbol: 'Pu', name: 'Plutoni', nameEn: 'Plutonium', mass: 244, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f⁶7s²', fullConfig: '[Rn]5f⁶7s²', electronegativity: 1.28, radius: 175, state: 'Rắn', oxidationStates: '+4', applications: 'Vũ khí hạt nhân, pin RTG' },
+      { number: 95, symbol: 'Am', name: 'Americi', nameEn: 'Americium', mass: 243, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f⁷7s²', fullConfig: '[Rn]5f⁷7s²', electronegativity: 1.3, radius: 175, state: 'Rắn', oxidationStates: '+3', applications: 'Đầu báo khói' },
+      { number: 96, symbol: 'Cm', name: 'Curi', nameEn: 'Curium', mass: 247, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f⁷6d¹7s²', fullConfig: '[Rn]5f⁷6d¹7s²', electronegativity: 1.3, radius: 175, state: 'Rắn', oxidationStates: '+3', applications: 'Nguồn năng lượng alpha' },
+      { number: 97, symbol: 'Bk', name: 'Berkeli', nameEn: 'Berkelium', mass: 247, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f⁹7s²', fullConfig: '[Rn]5f⁹7s²', electronegativity: 1.3, radius: 175, state: 'Rắn', oxidationStates: '+3', applications: 'Nghiên cứu khoa học' },
+      { number: 98, symbol: 'Cf', name: 'Californi', nameEn: 'Californium', mass: 251, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f¹⁰7s²', fullConfig: '[Rn]5f¹⁰7s²', electronegativity: 1.3, radius: 175, state: 'Rắn', oxidationStates: '+3', applications: 'Nguồn neutron, khởi động lò phản ứng' },
+      { number: 99, symbol: 'Es', name: 'Einsteini', nameEn: 'Einsteinium', mass: 252, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f¹¹7s²', fullConfig: '[Rn]5f¹¹7s²', electronegativity: 1.3, radius: 175, state: 'Rắn', oxidationStates: '+3', applications: 'Nghiên cứu khoa học' },
+      { number: 100, symbol: 'Fm', name: 'Fermi', nameEn: 'Fermium', mass: 257, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f¹²7s²', fullConfig: '[Rn]5f¹²7s²', electronegativity: 1.3, radius: 175, state: 'Rắn', oxidationStates: '+3', applications: 'Nghiên cứu khoa học' },
+      { number: 101, symbol: 'Md', name: 'Mendelevi', nameEn: 'Mendelevium', mass: 258, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f¹³7s²', fullConfig: '[Rn]5f¹³7s²', electronegativity: 1.3, radius: 175, state: 'Rắn', oxidationStates: '+3', applications: 'Nghiên cứu khoa học' },
+      { number: 102, symbol: 'No', name: 'Nobeli', nameEn: 'Nobelium', mass: 259, period: 7, group: 3, category: 'actinide', block: 'f', electronConfig: '[Rn]5f¹⁴7s²', fullConfig: '[Rn]5f¹⁴7s²', electronegativity: 1.3, radius: 175, state: 'Rắn', oxidationStates: '+2, +3', applications: 'Nghiên cứu khoa học' },
+      { number: 103, symbol: 'Lr', name: 'Lawrenci', nameEn: 'Lawrencium', mass: 262, period: 7, group: 3, category: 'actinide', block: 'd', electronConfig: '[Rn]5f¹⁴7s²7p¹', fullConfig: '[Rn]5f¹⁴7s²7p¹', electronegativity: 1.3, radius: 175, state: 'Rắn', oxidationStates: '+3', applications: 'Nghiên cứu khoa học' },
+      // Continue period 7
+      { number: 104, symbol: 'Rf', name: 'Rutherfordi', nameEn: 'Rutherfordium', mass: 267, period: 7, group: 4, category: 'transition-metal', block: 'd', electronConfig: '[Rn]5f¹⁴6d²7s²', fullConfig: '[Rn]5f¹⁴6d²7s²', electronegativity: null, radius: 157, state: 'Rắn', oxidationStates: '+4', applications: 'Nghiên cứu khoa học' },
+      { number: 105, symbol: 'Db', name: 'Dubni', nameEn: 'Dubnium', mass: 268, period: 7, group: 5, category: 'transition-metal', block: 'd', electronConfig: '[Rn]5f¹⁴6d³7s²', fullConfig: '[Rn]5f¹⁴6d³7s²', electronegativity: null, radius: 149, state: 'Rắn', oxidationStates: '+5', applications: 'Nghiên cứu khoa học' },
+      { number: 106, symbol: 'Sg', name: 'Seaborgi', nameEn: 'Seaborgium', mass: 269, period: 7, group: 6, category: 'transition-metal', block: 'd', electronConfig: '[Rn]5f¹⁴6d⁴7s²', fullConfig: '[Rn]5f¹⁴6d⁴7s²', electronegativity: null, radius: 143, state: 'Rắn', oxidationStates: '+6', applications: 'Nghiên cứu khoa học' },
+      { number: 107, symbol: 'Bh', name: 'Bohri', nameEn: 'Bohrium', mass: 270, period: 7, group: 7, category: 'transition-metal', block: 'd', electronConfig: '[Rn]5f¹⁴6d⁵7s²', fullConfig: '[Rn]5f¹⁴6d⁵7s²', electronegativity: null, radius: 141, state: 'Rắn', oxidationStates: '+7', applications: 'Nghiên cứu khoa học' },
+      { number: 108, symbol: 'Hs', name: 'Hassi', nameEn: 'Hassium', mass: 277, period: 7, group: 8, category: 'transition-metal', block: 'd', electronConfig: '[Rn]5f¹⁴6d⁶7s²', fullConfig: '[Rn]5f¹⁴6d⁶7s²', electronegativity: null, radius: 134, state: 'Rắn', oxidationStates: '+8', applications: 'Nghiên cứu khoa học' },
+      { number: 109, symbol: 'Mt', name: 'Meitneri', nameEn: 'Meitnerium', mass: 278, period: 7, group: 9, category: 'unknown', block: 'd', electronConfig: '[Rn]5f¹⁴6d⁷7s²', fullConfig: '[Rn]5f¹⁴6d⁷7s²', electronegativity: null, radius: 129, state: 'Rắn', oxidationStates: '+9', applications: 'Nghiên cứu khoa học' },
+      { number: 110, symbol: 'Ds', name: 'Darmstadti', nameEn: 'Darmstadtium', mass: 281, period: 7, group: 10, category: 'unknown', block: 'd', electronConfig: '[Rn]5f¹⁴6d⁸7s²', fullConfig: '[Rn]5f¹⁴6d⁸7s²', electronegativity: null, radius: 128, state: 'Rắn', oxidationStates: '+8', applications: 'Nghiên cứu khoa học' },
+      { number: 111, symbol: 'Rg', name: 'Roentgeni', nameEn: 'Roentgenium', mass: 282, period: 7, group: 11, category: 'unknown', block: 'd', electronConfig: '[Rn]5f¹⁴6d⁹7s²', fullConfig: '[Rn]5f¹⁴6d⁹7s²', electronegativity: null, radius: 121, state: 'Rắn', oxidationStates: '+3', applications: 'Nghiên cứu khoa học' },
+      { number: 112, symbol: 'Cn', name: 'Copernici', nameEn: 'Copernicium', mass: 285, period: 7, group: 12, category: 'transition-metal', block: 'd', electronConfig: '[Rn]5f¹⁴6d¹⁰7s²', fullConfig: '[Rn]5f¹⁴6d¹⁰7s²', electronegativity: null, radius: 122, state: 'Lỏng', oxidationStates: '+2', applications: 'Nghiên cứu khoa học' },
+      { number: 113, symbol: 'Nh', name: 'Nihoni', nameEn: 'Nihonium', mass: 286, period: 7, group: 13, category: 'unknown', block: 'p', electronConfig: '[Rn]5f¹⁴6d¹⁰7s²7p¹', fullConfig: '[Rn]5f¹⁴6d¹⁰7s²7p¹', electronegativity: null, radius: 136, state: 'Rắn', oxidationStates: '+3', applications: 'Nghiên cứu khoa học' },
+      { number: 114, symbol: 'Fl', name: 'Flerovi', nameEn: 'Flerovium', mass: 289, period: 7, group: 14, category: 'unknown', block: 'p', electronConfig: '[Rn]5f¹⁴6d¹⁰7s²7p²', fullConfig: '[Rn]5f¹⁴6d¹⁰7s²7p²', electronegativity: null, radius: 143, state: 'Rắn', oxidationStates: '+2', applications: 'Nghiên cứu khoa học' },
+      { number: 115, symbol: 'Mc', name: 'Moscovi', nameEn: 'Moscovium', mass: 290, period: 7, group: 15, category: 'unknown', block: 'p', electronConfig: '[Rn]5f¹⁴6d¹⁰7s²7p³', fullConfig: '[Rn]5f¹⁴6d¹⁰7s²7p³', electronegativity: null, radius: 162, state: 'Rắn', oxidationStates: '+3', applications: 'Nghiên cứu khoa học' },
+      { number: 116, symbol: 'Lv', name: 'Livermori', nameEn: 'Livermorium', mass: 293, period: 7, group: 16, category: 'unknown', block: 'p', electronConfig: '[Rn]5f¹⁴6d¹⁰7s²7p⁴', fullConfig: '[Rn]5f¹⁴6d¹⁰7s²7p⁴', electronegativity: null, radius: 175, state: 'Rắn', oxidationStates: '+4', applications: 'Nghiên cứu khoa học' },
+      { number: 117, symbol: 'Ts', name: 'Tennessine', nameEn: 'Tennessine', mass: 294, period: 7, group: 17, category: 'unknown', block: 'p', electronConfig: '[Rn]5f¹⁴6d¹⁰7s²7p⁵', fullConfig: '[Rn]5f¹⁴6d¹⁰7s²7p⁵', electronegativity: null, radius: 165, state: 'Rắn', oxidationStates: '-1', applications: 'Nghiên cứu khoa học' },
+      { number: 118, symbol: 'Og', name: 'Oganesson', nameEn: 'Oganesson', mass: 294, period: 7, group: 18, category: 'unknown', block: 'p', electronConfig: '[Rn]5f¹⁴6d¹⁰7s²7p⁶', fullConfig: '[Rn]5f¹⁴6d¹⁰7s²7p⁶', electronegativity: null, radius: 157, state: 'Rắn', oxidationStates: '0', applications: 'Nghiên cứu khoa học' }
+    ];
+
+    // Group information
+    const groupInfo = {
+      1: { name: 'Kim loại kiềm', valenceE: 1, properties: 'Hoạt động hóa học mạnh, dễ mất 1 electron, tạo ion +1', applications: 'Pin, thuốc, phân bón' },
+      2: { name: 'Kim loại kiềm thổ', valenceE: 2, properties: 'Hoạt động khá mạnh, tạo ion +2, tạo oxit bazơ', applications: 'Xi măng, pháo hoa, thuốc' },
+      3: { name: 'Nhóm Scandi', valenceE: 3, properties: 'Kim loại chuyển tiếp, có tính khử', applications: 'Hợp kim, laser' },
+      4: { name: 'Nhóm Titan', valenceE: 4, properties: 'Kim loại chuyển tiếp, bền với ăn mòn', applications: 'Hợp kim, implant y tế' },
+      5: { name: 'Nhóm Vanadi', valenceE: 5, properties: 'Kim loại chuyển tiếp, nhiều số oxi hóa', applications: 'Thép hợp kim' },
+      6: { name: 'Nhóm Crom', valenceE: 6, properties: 'Kim loại chuyển tiếp, tạo hợp chất màu', applications: 'Mạ crom, thép không gỉ' },
+      7: { name: 'Nhóm Mangan', valenceE: 7, properties: 'Kim loại chuyển tiếp, nhiều số oxi hóa', applications: 'Thép, pin' },
+      8: { name: 'Nhóm Sắt', valenceE: '8', properties: 'Kim loại chuyển tiếp, từ tính', applications: 'Xây dựng, máy móc' },
+      9: { name: 'Nhóm Coban', valenceE: '9', properties: 'Kim loại chuyển tiếp, tạo hợp chất màu', applications: 'Pin, hợp kim' },
+      10: { name: 'Nhóm Niken', valenceE: '10', properties: 'Kim loại chuyển tiếp, bền với ăn mòn', applications: 'Mạ, pin NiMH' },
+      11: { name: 'Kim loại đồng', valenceE: 1, properties: 'Dẫn điện, dẫn nhiệt tốt, bền với ăn mòn', applications: 'Dây điện, trang sức' },
+      12: { name: 'Nhóm Kẽm', valenceE: 2, properties: 'Kim loại chuyển tiếp, tạo ion +2', applications: 'Mạ kẽm, hợp kim' },
+      13: { name: 'Nhóm Bo', valenceE: 3, properties: 'Có cả kim loại và á kim, tạo ion +3', applications: 'Nhôm trong hàng không, thủy tinh' },
+      14: { name: 'Nhóm Cacbon', valenceE: 4, properties: 'Có cả phi kim và kim loại, tạo 4 liên kết', applications: 'Chất bán dẫn, vật liệu' },
+      15: { name: 'Nhóm Nitơ', valenceE: 5, properties: 'Phi kim và á kim, tạo 3 liên kết cộng hóa trị', applications: 'Phân bón, thuốc nổ' },
+      16: { name: 'Nhóm Oxi', valenceE: 6, properties: 'Phi kim và á kim, tạo ion -2', applications: 'Oxi hóa, axit' },
+      17: { name: 'Halogen', valenceE: 7, properties: 'Phi kim hoạt động mạnh, dễ nhận 1 electron', applications: 'Khử trùng, dược phẩm' },
+      18: { name: 'Khí hiếm', valenceE: 8, properties: 'Trơ về mặt hóa học, lớp vỏ electron đầy', applications: 'Đèn, khí bảo vệ' }
+    };
+
+    // Period information
+    const periodInfo = {
+      1: { shells: 1, elements: 2, trend: 'Chỉ có 2 nguyên tố, bán kính nguyên tử nhỏ nhất' },
+      2: { shells: 2, elements: 8, trend: 'Bán kính giảm từ Li đến Ne khi tăng điện tích hạt nhân' },
+      3: { shells: 3, elements: 8, trend: 'Bán kính giảm từ Na đến Ar, tương tự chu kỳ 2' },
+      4: { shells: 4, elements: 18, trend: 'Bao gồm kim loại chuyển tiếp, bán kính thay đổi phức tạp hơn' },
+      5: { shells: 5, elements: 18, trend: 'Tương tự chu kỳ 4, có kim loại chuyển tiếp' },
+      6: { shells: 6, elements: 32, trend: 'Bao gồm Lanthanide, hiệu ứng co lanthanide' },
+      7: { shells: 7, elements: 32, trend: 'Bao gồm Actinide, nhiều nguyên tố phóng xạ và nhân tạo' }
+    };
+
+    // Get outer electron configuration for Group A elements
+    function getOuterElectronConfig(element) {
+      const groupAGroups = [1, 2, 13, 14, 15, 16, 17, 18];
+      if (!groupAGroups.includes(element.group)) return null;
+      
+      const period = element.period;
+      const group = element.group;
+      
+      if (period === 1) {
+        return group === 1 ? '1s¹' : '1s²';
+      }
+      
+      const shell = period;
+      let outerConfig = '';
+      
+      if (group <= 2) {
+        outerConfig = `${shell}s${getSuper(group)}`;
+      } else {
+        const pElectrons = group - 10;
+        outerConfig = `${shell}s²${shell}p${getSuper(pElectrons)}`;
+      }
+      
+      return outerConfig;
+    }
+
+    function getSuper(num) {
+      const supers = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
+      return num.toString().split('').map(d => supers[parseInt(d)]).join('');
+    }
+
+    // State
+    let teacherMode = false;
+    let currentTab = 'periodic';
+    let highlightedPeriod = null;
+    let highlightedGroup = null;
+    let highlightedBlock = null;
+
+    // Initialize SDK
+    const defaultConfig = {
+      main_title: 'BẢNG TUẦN HOÀN CÁC NGUYÊN TỐ HÓA HỌC'
+    };
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          const title = document.getElementById('main-title');
+          if (title) {
+            title.textContent = config.main_title || defaultConfig.main_title;
+          }
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['main_title', config.main_title || defaultConfig.main_title]
+        ])
+      });
+    }
+
+    // Render functions
+    function renderPeriodicTable() {
+      const table = document.getElementById('periodic-table');
+      const lanthanides = document.getElementById('lanthanides');
+      const actinides = document.getElementById('actinides');
+      
+      table.innerHTML = '';
+      lanthanides.innerHTML = '';
+      actinides.innerHTML = '';
+      
+      // Create grid positions
+      const gridPositions = {};
+      
+      // Main table elements
+      elements.forEach(el => {
+        if (el.number >= 57 && el.number <= 71) return; // Lanthanides
+        if (el.number >= 89 && el.number <= 103) return; // Actinides
+        
+        const row = el.period;
+        let col = el.group;
+        
+        // Handle period 6 and 7 gaps for lanthanides/actinides
+        if (el.period === 6 && el.group === 3 && el.number > 71) col = 3;
+        if (el.period === 7 && el.group === 3 && el.number > 103) col = 3;
+        
+        gridPositions[`${row}-${col}`] = el;
+      });
+      
+      // Render main table
+      for (let row = 1; row <= 7; row++) {
+        for (let col = 1; col <= 18; col++) {
+          const el = gridPositions[`${row}-${col}`];
+          
+          if (el) {
+            table.appendChild(createElementCard(el));
+          } else if (row === 6 && col === 3) {
+            // Lanthanide placeholder
+            const placeholder = document.createElement('div');
+            placeholder.className = 'element-card lanthanide flex items-center justify-center text-xs font-bold';
+            placeholder.innerHTML = '57-71<br>La-Lu';
+            placeholder.style.gridColumn = col;
+            placeholder.style.gridRow = row;
+            table.appendChild(placeholder);
+          } else if (row === 7 && col === 3) {
+            // Actinide placeholder
+            const placeholder = document.createElement('div');
+            placeholder.className = 'element-card actinide flex items-center justify-center text-xs font-bold';
+            placeholder.innerHTML = '89-103<br>Ac-Lr';
+            placeholder.style.gridColumn = col;
+            placeholder.style.gridRow = row;
+            table.appendChild(placeholder);
+          } else {
+            // Empty cell
+            const empty = document.createElement('div');
+            empty.style.gridColumn = col;
+            empty.style.gridRow = row;
+            table.appendChild(empty);
+          }
+        }
+      }
+      
+      // Render lanthanides
+      const lanthanideElements = elements.filter(el => el.number >= 57 && el.number <= 71);
+      lanthanides.innerHTML = '<div class="col-span-3 flex items-center justify-center text-xs font-bold text-orange-600">Lanthanide</div>';
+      lanthanideElements.forEach(el => {
+        lanthanides.appendChild(createElementCard(el));
+      });
+      
+      // Render actinides
+      const actinideElements = elements.filter(el => el.number >= 89 && el.number <= 103);
+      actinides.innerHTML = '<div class="col-span-3 flex items-center justify-center text-xs font-bold text-amber-700">Actinide</div>';
+      actinideElements.forEach(el => {
+        actinides.appendChild(createElementCard(el));
+      });
+    }
+
+    function createElementCard(el) {
+      const card = document.createElement('div');
+      card.className = `element-card ${el.category}`;
+      card.dataset.number = el.number;
+      card.dataset.period = el.period;
+      card.dataset.group = el.group;
+      card.dataset.block = el.block;
+      
+      if (highlightedBlock === el.block) {
+        card.classList.add(`block-${el.block}`);
+      }
+      
+      // Apply highlight/dim states
+      if (highlightedPeriod !== null && el.period !== highlightedPeriod) {
+        card.classList.add('dimmed');
+      }
+      if (highlightedGroup !== null && el.group !== highlightedGroup) {
+        card.classList.add('dimmed');
+      }
+      if (highlightedBlock !== null && el.block !== highlightedBlock) {
+        card.classList.add('dimmed');
+      }
+      
+      card.innerHTML = `
+        <div class="absolute top-0.5 left-1 text-[8px] font-medium">${el.number}</div>
+        <div class="text-lg font-bold leading-none">${el.symbol}</div>
+        <div class="text-[7px] leading-tight">${el.name}</div>
+        <div class="text-[7px] text-gray-200">${el.mass.toFixed(el.mass < 10 ? 3 : 2)}</div>
+        ${teacherMode ? `<div class="text-[6px] opacity-80">${el.electronConfig}</div>` : ''}
+      `;
+      
+      card.addEventListener('click', () => showElementModal(el));
+      
+      return card;
+    }
+
+    function renderElectronTab() {
+      const grid = document.getElementById('electron-grid');
+      grid.innerHTML = '';
+      
+      // Get Group A elements only
+      const groupAGroups = [1, 2, 13, 14, 15, 16, 17, 18];
+      
+      // Create header row
+      const header = document.createElement('div');
+      header.className = 'group-a-grid mb-4';
+      header.innerHTML = `
+        <div class="text-center font-bold text-sm py-2 bg-gray-100 rounded">Nhóm</div>
+        <div class="text-center font-bold text-sm py-2 bg-red-100 rounded">IA</div>
+        <div class="text-center font-bold text-sm py-2 bg-orange-100 rounded">IIA</div>
+        <div class="text-center font-bold text-sm py-2 bg-purple-100 rounded">IIIA</div>
+        <div class="text-center font-bold text-sm py-2 bg-green-100 rounded">IVA</div>
+        <div class="text-center font-bold text-sm py-2 bg-blue-100 rounded">VA</div>
+        <div class="text-center font-bold text-sm py-2 bg-pink-100 rounded">VIA</div>
+        <div class="text-center font-bold text-sm py-2 bg-cyan-100 rounded">VIIA</div>
+      `;
+      grid.appendChild(header);
+      
+      // Create rows for each period
+      for (let period = 1; period <= 7; period++) {
+        const row = document.createElement('div');
+        row.className = 'group-a-grid mb-2';
+        
+        // Period label
+        const periodLabel = document.createElement('div');
+        periodLabel.className = 'text-center font-bold text-sm py-2 bg-gray-100 rounded';
+        periodLabel.textContent = `CK ${period}`;
+        row.appendChild(periodLabel);
+        
+        // Elements for this period in Group A
+        const groupMapping = {
+          1: 1, 2: 2, 13: 3, 14: 4, 15: 5, 16: 6, 17: 7, 18: 8
+        };
+        
+        for (const group of [1, 2, 13, 14, 15, 16, 17]) {
+          const el = elements.find(e => e.period === period && e.group === group);
+          
+          if (el) {
+            const cell = document.createElement('div');
+            cell.className = `element-card ${el.category} text-center`;
+            cell.dataset.number = el.number;
+            cell.dataset.period = el.period;
+            cell.dataset.group = el.group;
+            
+            // Apply highlight/dim states
+            if (highlightedPeriod !== null && el.period !== highlightedPeriod) {
+              cell.classList.add('dimmed');
+            }
+            if (highlightedGroup !== null && el.group !== highlightedGroup) {
+              cell.classList.add('dimmed');
+            }
+            
+            const outerConfig = getOuterElectronConfig(el);
+            cell.innerHTML = `
+              <div class="text-lg font-bold">${el.symbol}</div>
+              <div class="text-xs">${el.name}</div>
+              <div class="text-sm font-mono mt-1 bg-white bg-opacity-20 rounded px-1">${outerConfig || '-'}</div>
+            `;
+            
+            cell.addEventListener('click', () => showElementModal(el));
+            row.appendChild(cell);
+          } else {
+            const empty = document.createElement('div');
+            empty.className = 'bg-gray-50 rounded';
+            row.appendChild(empty);
+          }
+        }
+        
+        grid.appendChild(row);
+      }
+    }
+
+    function renderRadiusTab() {
+      const grid = document.getElementById('radius-grid');
+      grid.innerHTML = '';
+      
+      // Create header
+      const header = document.createElement('div');
+      header.className = 'group-a-grid mb-4';
+      header.innerHTML = `
+        <div class="text-center font-bold text-sm py-2 bg-gray-100 rounded">Nhóm</div>
+        <div class="text-center font-bold text-sm py-2 bg-blue-100 rounded">IA</div>
+        <div class="text-center font-bold text-sm py-2 bg-blue-100 rounded">IIA</div>
+        <div class="text-center font-bold text-sm py-2 bg-blue-100 rounded">IIIA</div>
+        <div class="text-center font-bold text-sm py-2 bg-blue-100 rounded">IVA</div>
+        <div class="text-center font-bold text-sm py-2 bg-blue-100 rounded">VA</div>
+        <div class="text-center font-bold text-sm py-2 bg-blue-100 rounded">VIA</div>
+        <div class="text-center font-bold text-sm py-2 bg-blue-100 rounded">VIIA</div>
+      `;
+      grid.appendChild(header);
+      
+      // Find max radius for scaling
+      const maxRadius = Math.max(...elements.filter(e => [1,2,13,14,15,16,17].includes(e.group) && e.radius).map(e => e.radius));
+      
+      // Create rows
+      for (let period = 1; period <= 7; period++) {
+        const row = document.createElement('div');
+        row.className = 'group-a-grid mb-4 items-center';
+        
+        // Period label
+        const periodLabel = document.createElement('div');
+        periodLabel.className = 'text-center font-bold text-sm py-2 bg-gray-100 rounded';
+        periodLabel.textContent = `CK ${period}`;
+        row.appendChild(periodLabel);
+        
+        for (const group of [1, 2, 13, 14, 15, 16, 17]) {
+          const el = elements.find(e => e.period === period && e.group === group);
+          
+          if (el && el.radius) {
+            const cell = document.createElement('div');
+            cell.className = 'flex flex-col items-center justify-center p-2';
+            cell.dataset.number = el.number;
+            cell.dataset.period = el.period;
+            cell.dataset.group = el.group;
+            
+            // Apply highlight/dim states
+            if (highlightedPeriod !== null && el.period !== highlightedPeriod) {
+              cell.classList.add('dimmed');
+            }
+            if (highlightedGroup !== null && el.group !== highlightedGroup) {
+              cell.classList.add('dimmed');
+            }
+            
+            // Calculate sphere size (20-60px range)
+            const sphereSize = 20 + (el.radius / maxRadius) * 40;
+            
+            cell.innerHTML = `
+              <div class="sphere-3d mb-1 cursor-pointer hover:scale-110 transition-transform" 
+                   style="width: ${sphereSize}px; height: ${sphereSize}px;"></div>
+              <div class="text-xs font-bold">${el.symbol}</div>
+              <div class="text-[10px] text-gray-600">${el.radius} pm</div>
+            `;
+            
+            cell.addEventListener('click', () => showElementModal(el));
+            row.appendChild(cell);
+          } else {
+            const empty = document.createElement('div');
+            empty.className = 'bg-gray-50 rounded h-20';
+            row.appendChild(empty);
+          }
+        }
+        
+        grid.appendChild(row);
+      }
+      
+      // Add trend arrows
+      const trendNote = document.createElement('div');
+      trendNote.className = 'mt-4 p-4 bg-blue-50 rounded-lg text-sm';
+      trendNote.innerHTML = `
+        <div class="font-bold text-blue-700 mb-2">📈 Xu hướng biến đổi bán kính nguyên tử:</div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <span>→ Trong chu kỳ:</span>
+            <span class="text-red-600 font-bold">Giảm dần</span>
+            <span class="text-xs">(tăng điện tích hạt nhân)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span>↓ Trong nhóm:</span>
+            <span class="text-green-600 font-bold">Tăng dần</span>
+            <span class="text-xs">(tăng số lớp electron)</span>
+          </div>
+        </div>
+      `;
+      grid.appendChild(trendNote);
+    }
+
+    function renderElectronegativityTab() {
+      const grid = document.getElementById('electronegativity-grid');
+      grid.innerHTML = '';
+      
+      // Create header
+      const header = document.createElement('div');
+      header.className = 'group-a-grid mb-4';
+      header.innerHTML = `
+        <div class="text-center font-bold text-sm py-2 bg-gray-100 rounded">Nhóm</div>
+        <div class="text-center font-bold text-sm py-2 bg-yellow-100 rounded">IA</div>
+        <div class="text-center font-bold text-sm py-2 bg-yellow-100 rounded">IIA</div>
+        <div class="text-center font-bold text-sm py-2 bg-yellow-100 rounded">IIIA</div>
+        <div class="text-center font-bold text-sm py-2 bg-yellow-100 rounded">IVA</div>
+        <div class="text-center font-bold text-sm py-2 bg-yellow-100 rounded">VA</div>
+        <div class="text-center font-bold text-sm py-2 bg-yellow-100 rounded">VIA</div>
+        <div class="text-center font-bold text-sm py-2 bg-yellow-100 rounded">VIIA</div>
+      `;
+      grid.appendChild(header);
+      
+      // Create rows
+      for (let period = 1; period <= 7; period++) {
+        const row = document.createElement('div');
+        row.className = 'group-a-grid mb-2';
+        
+        // Period label
+        const periodLabel = document.createElement('div');
+        periodLabel.className = 'text-center font-bold text-sm py-2 bg-gray-100 rounded';
+        periodLabel.textContent = `CK ${period}`;
+        row.appendChild(periodLabel);
+        
+        for (const group of [1, 2, 13, 14, 15, 16, 17]) {
+          const el = elements.find(e => e.period === period && e.group === group);
+          
+          if (el) {
+            const cell = document.createElement('div');
+            cell.className = 'bg-gradient-to-br from-yellow-50 to-orange-50 rounded-lg p-2 text-center cursor-pointer hover:shadow-md transition-shadow';
+            cell.dataset.number = el.number;
+            cell.dataset.period = el.period;
+            cell.dataset.group = el.group;
+            
+            // Apply highlight/dim states
+            if (highlightedPeriod !== null && el.period !== highlightedPeriod) {
+              cell.classList.add('dimmed');
+            }
+            if (highlightedGroup !== null && el.group !== highlightedGroup) {
+              cell.classList.add('dimmed');
+            }
+            
+            // Color based on electronegativity
+            let bgColor = 'bg-gray-200';
+            if (el.electronegativity) {
+              if (el.electronegativity >= 3) bgColor = 'bg-red-400';
+              else if (el.electronegativity >= 2.5) bgColor = 'bg-orange-400';
+              else if (el.electronegativity >= 2) bgColor = 'bg-yellow-400';
+              else if (el.electronegativity >= 1.5) bgColor = 'bg-green-400';
+              else bgColor = 'bg-blue-400';
+            }
+            
+            cell.innerHTML = `
+              <div class="text-lg font-bold">${el.symbol}</div>
+              <div class="text-xs text-gray-600">${el.name}</div>
+              <div class="mt-1 ${bgColor} rounded px-2 py-1 text-sm font-bold">
+                ${el.electronegativity || '-'}
+              </div>
+            `;
+            
+            cell.addEventListener('click', () => showElementModal(el));
+            row.appendChild(cell);
+          } else {
+            const empty = document.createElement('div');
+            empty.className = 'bg-gray-50 rounded';
+            row.appendChild(empty);
+          }
+        }
+        
+        grid.appendChild(row);
+      }
+      
+      // Add legend and trend
+      const legend = document.createElement('div');
+      legend.className = 'mt-4 p-4 bg-yellow-50 rounded-lg text-sm';
+      legend.innerHTML = `
+        <div class="font-bold text-yellow-700 mb-2">⚡ Thang độ âm điện Pauling:</div>
+        <div class="flex flex-wrap gap-2 mb-3">
+          <span class="px-2 py-1 rounded bg-blue-400 text-white text-xs">< 1.5</span>
+          <span class="px-2 py-1 rounded bg-green-400 text-white text-xs">1.5-2.0</span>
+          <span class="px-2 py-1 rounded bg-yellow-400 text-xs">2.0-2.5</span>
+          <span class="px-2 py-1 rounded bg-orange-400 text-white text-xs">2.5-3.0</span>
+          <span class="px-2 py-1 rounded bg-red-400 text-white text-xs">> 3.0</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <span>→ Trong chu kỳ:</span>
+            <span class="text-green-600 font-bold">Tăng dần</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span>↓ Trong nhóm:</span>
+            <span class="text-red-600 font-bold">Giảm dần</span>
+          </div>
+        </div>
+      `;
+      grid.appendChild(legend);
+    }
+
+    function showElementModal(el) {
+      const modal = document.getElementById('modal');
+      const body = document.getElementById('modal-body');
+      
+      body.innerHTML = `
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <div class="text-4xl font-bold text-blue-600">${el.symbol}</div>
+            <div class="text-2xl font-medium text-gray-700">${el.name}</div>
+            <div class="text-sm text-gray-500">${el.nameEn}</div>
+          </div>
+          <div class="text-right">
+            <div class="text-3xl font-bold text-gray-400">${el.number}</div>
+            <div class="text-sm text-gray-500">Số hiệu nguyên tử</div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div class="bg-gray-50 p-3 rounded-lg">
+            <div class="text-xs text-gray-500 mb-1">Nguyên tử khối</div>
+            <div class="font-bold">${el.mass}</div>
+          </div>
+          <div class="bg-gray-50 p-3 rounded-lg">
+            <div class="text-xs text-gray-500 mb-1">Độ âm điện</div>
+            <div class="font-bold">${el.electronegativity || 'Không xác định'}</div>
+          </div>
+          <div class="bg-gray-50 p-3 rounded-lg">
+            <div class="text-xs text-gray-500 mb-1">Bán kính nguyên tử</div>
+            <div class="font-bold">${el.radius ? el.radius + ' pm' : 'Không xác định'}</div>
+          </div>
+          <div class="bg-gray-50 p-3 rounded-lg">
+            <div class="text-xs text-gray-500 mb-1">Trạng thái</div>
+            <div class="font-bold">${el.state}</div>
+          </div>
+        </div>
+        
+        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+          <div class="text-xs text-blue-600 mb-1">Cấu hình electron</div>
+          <div class="font-mono text-lg">${el.fullConfig}</div>
+          <div class="text-xs text-gray-500 mt-1">Rút gọn: ${el.electronConfig}</div>
+        </div>
+        
+        <div class="bg-purple-50 p-4 rounded-lg mb-4">
+          <div class="text-xs text-purple-600 mb-1">Số oxi hóa phổ biến</div>
+          <div class="font-bold">${el.oxidationStates}</div>
+        </div>
+        
+        <div class="bg-green-50 p-4 rounded-lg mb-4">
+          <div class="text-xs text-green-600 mb-1">Ứng dụng</div>
+          <div>${el.applications}</div>
+        </div>
+        
+        <div class="flex gap-2">
+          <button id="speak-btn" class="flex-1 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">
+            🔊 Phát âm tiếng Anh
+          </button>
+          <button id="close-modal-btn" class="flex-1 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors">
+            ✕ Đóng
+          </button>
+        </div>
+      `;
+      
+      modal.classList.remove('hidden');
+      
+      document.getElementById('close-modal-btn').addEventListener('click', () => {
+        modal.classList.add('hidden');
+      });
+      
+      document.getElementById('speak-btn').addEventListener('click', () => {
+        const utterance = new SpeechSynthesisUtterance(el.nameEn);
+        utterance.lang = 'en-US';
+        speechSynthesis.speak(utterance);
+      });
+    }
+
+    function showInfoPopup(content) {
+      const popup = document.getElementById('info-popup');
+      const popupContent = document.getElementById('popup-content');
+      popupContent.innerHTML = content;
+      popup.classList.remove('hidden');
+    }
+
+    function hidePopup() {
+      document.getElementById('info-popup').classList.add('hidden');
+    }
+
+    function highlightPeriod(period) {
+      if (highlightedPeriod === period) {
+        highlightedPeriod = null;
+        hidePopup();
+      } else {
+        highlightedPeriod = period;
+        highlightedGroup = null;
+        highlightedBlock = null;
+        
+        const info = periodInfo[period];
+        const periodElements = elements.filter(e => e.period === period);
+        
+        showInfoPopup(`
+          <div class="font-bold text-lg text-blue-600 mb-2">Chu kỳ ${period}</div>
+          <div class="space-y-2 text-sm">
+            <div><strong>Số lớp electron:</strong> ${info.shells}</div>
+            <div><strong>Tổng số nguyên tố:</strong> ${info.elements}</div>
+            <div><strong>Xu hướng bán kính:</strong> ${info.trend}</div>
+          </div>
+        `);
+      }
+      
+      renderCurrentTab();
+      updateButtonStates();
+    }
+
+    function highlightGroup(group) {
+      if (highlightedGroup === group) {
+        highlightedGroup = null;
+        hidePopup();
+      } else {
+        highlightedGroup = group;
+        highlightedPeriod = null;
+        highlightedBlock = null;
+        
+        const info = groupInfo[group];
+        
+        showInfoPopup(`
+          <div class="font-bold text-lg text-green-600 mb-2">${info.name}</div>
+          <div class="space-y-2 text-sm">
+            <div><strong>Số electron hóa trị:</strong> ${info.valenceE}</div>
+            <div><strong>Tính chất đặc trưng:</strong> ${info.properties}</div>
+            <div><strong>Ứng dụng:</strong> ${info.applications}</div>
+          </div>
+        `);
+      }
+      
+      renderCurrentTab();
+      updateButtonStates();
+    }
+
+    function highlightBlock(block) {
+      if (highlightedBlock === block) {
+        highlightedBlock = null;
+      } else {
+        highlightedBlock = block;
+        highlightedPeriod = null;
+        highlightedGroup = null;
+      }
+      
+      hidePopup();
+      renderCurrentTab();
+      updateButtonStates();
+    }
+
+    function resetHighlights() {
+      highlightedPeriod = null;
+      highlightedGroup = null;
+      highlightedBlock = null;
+      hidePopup();
+      renderCurrentTab();
+      updateButtonStates();
+    }
+
+    function updateButtonStates() {
+      // Period buttons
+      document.querySelectorAll('[data-period]').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.period) === highlightedPeriod);
+      });
+      
+      // Group buttons
+      document.querySelectorAll('[data-group]').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.group) === highlightedGroup);
+      });
+      
+      // Block buttons
+      document.querySelectorAll('[data-block]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.block === highlightedBlock);
+      });
+    }
+
+    function renderCurrentTab() {
+      switch(currentTab) {
+        case 'periodic':
+          renderPeriodicTable();
+          break;
+        case 'electron':
+          renderElectronTab();
+          break;
+        case 'radius':
+          renderRadiusTab();
+          break;
+        case 'electronegativity':
+          renderElectronegativityTab();
+          break;
+      }
+    }
+
+    function searchElements(query) {
+      if (!query) {
+        highlightedPeriod = null;
+        highlightedGroup = null;
+        highlightedBlock = null;
+        renderCurrentTab();
+        return;
+      }
+      
+      query = query.toLowerCase();
+      const found = elements.find(el => 
+        el.name.toLowerCase().includes(query) ||
+        el.symbol.toLowerCase() === query ||
+        el.number.toString() === query
+      );
+      
+      if (found) {
+        showElementModal(found);
+      }
+    }
+
+    // Event listeners
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+        
+        currentTab = btn.dataset.tab;
+        document.getElementById(`${currentTab}-tab`).classList.remove('hidden');
+        
+        resetHighlights();
+        renderCurrentTab();
+      });
+    });
+
+    // Period buttons for main table
+    document.querySelectorAll('[data-period]').forEach(btn => {
+      btn.addEventListener('click', () => highlightPeriod(parseInt(btn.dataset.period)));
+    });
+
+    // Group buttons for main table
+    document.querySelectorAll('[data-group]').forEach(btn => {
+      btn.addEventListener('click', () => highlightGroup(parseInt(btn.dataset.group)));
+    });
+
+    // Block buttons
+    document.querySelectorAll('[data-block]').forEach(btn => {
+      btn.addEventListener('click', () => highlightBlock(btn.dataset.block));
+    });
+
+    // Period buttons for electron tab
+    document.querySelectorAll('[data-electron-period]').forEach(btn => {
+      btn.addEventListener('click', () => highlightPeriod(parseInt(btn.dataset.electronPeriod)));
+    });
+
+    // Group buttons for electron tab
+    document.querySelectorAll('[data-electron-group]').forEach(btn => {
+      btn.addEventListener('click', () => highlightGroup(parseInt(btn.dataset.electronGroup)));
+    });
+
+    // Period buttons for radius tab
+    document.querySelectorAll('[data-radius-period]').forEach(btn => {
+      btn.addEventListener('click', () => highlightPeriod(parseInt(btn.dataset.radiusPeriod)));
+    });
+
+    // Group buttons for radius tab
+    document.querySelectorAll('[data-radius-group]').forEach(btn => {
+      btn.addEventListener('click', () => highlightGroup(parseInt(btn.dataset.radiusGroup)));
+    });
+
+    // Period buttons for electronegativity tab
+    document.querySelectorAll('[data-en-period]').forEach(btn => {
+      btn.addEventListener('click', () => highlightPeriod(parseInt(btn.dataset.enPeriod)));
+    });
+
+    // Group buttons for electronegativity tab
+    document.querySelectorAll('[data-en-group]').forEach(btn => {
+      btn.addEventListener('click', () => highlightGroup(parseInt(btn.dataset.enGroup)));
+    });
+
+    // Reset button
+    document.getElementById('reset-btn').addEventListener('click', resetHighlights);
+
+    // Search
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      searchElements(e.target.value);
+    });
+
+    // Teacher mode
+    document.getElementById('teacher-mode').addEventListener('change', (e) => {
+      teacherMode = e.target.checked;
+      renderCurrentTab();
+    });
+
+    // Close popup
+    document.getElementById('close-popup').addEventListener('click', hidePopup);
+
+    // Close modal on overlay click
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('modal')) {
+        document.getElementById('modal').classList.add('hidden');
+      }
+    });
+
+    // Initialize
+    renderPeriodicTable();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cb469e5d1e70713',t:'MTc3MDY1MTA4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
